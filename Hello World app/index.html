@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta content="text/html;charset=utf-8" http-equiv="Content-Type">
+    <meta content="utf-8" http-equiv="encoding">
+    <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
+    <script src="bower_components/jquery/dist/jquery.min.js"></script>
+    <script src="bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
+    <script src="bower_components/react/react.js"></script>
+    <script src="bower_components/react/react-dom.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/babel-core/5.8.23/browser.min.js"></script>
+  </head>
+
+  <body>
+    <div id = "container" class="container-fluid" style="margin-top:10px;">
+    </div>
+  </body>
+
+  <script type="text/babel">
+    var MyExample = React.createClass({
+      getInitialState: function() {
+        return {curindex: 0};
+      },
+      clicked: function(index) {
+        this.setState({curindex: index});
+      },
+      render: function () {
+        var self = this;
+        var mylist = this.props.items;
+        var curindex = this.state.curindex;
+        return  <div>
+                  <div className="dropdown">
+                    <button className="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown">Select Language&nbsp;
+                    <span className="caret"></span></button>
+                    <ul className="dropdown-menu">
+                      {mylist.map(function(l, index){
+                        var boundClick = self.clicked.bind(self, index);
+                        return <li onClick={boundClick}><a href="#">{l.language}</a></li>;
+                      })}
+                    </ul>
+                  </div>
+                  <h1>{mylist[curindex].text}</h1>
+                </div>;
+      }
+    });
+
+    var mylist = [
+      {language: 'English', text: 'Hello'},
+      {language: 'Korean', text: '안녕하세요'},
+      {language: 'Chinese', text: '你好'},
+      {language: 'Japanese', text: 'こんにちは'},
+      {language: 'Vietnamese', text: 'Xin chào'}
+    ];
+
+    ReactDOM.render(
+      <MyExample items = {mylist}/>,
+      document.getElementById('container')
+    );
+  </script>
+
+</html>
